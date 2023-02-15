@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "292778468077",
+    "project_id": "pandaperiod",
+    "storage_bucket": "pandaperiod.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292778468077:android:31afc41854feb1df2be2e4",
+        "android_client_info": {
+          "package_name": "com.example.panda_period"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292778468077-c7p3cdp9m2gc9opbep4ahg4cm8svgc64.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOk8hjzYZDaWoQFDJpOqoGgClV7rac3zQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292778468077-c7p3cdp9m2gc9opbep4ahg4cm8svgc64.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
