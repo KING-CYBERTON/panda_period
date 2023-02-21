@@ -35,24 +35,18 @@ _initialScreen(User? user){
   else{
 Get.offAllNamed('/Profile');
   }
-  //with this calback function we are now done with the authntication
-  //this means we can now effective chack if the user is logged in or not
-  // and react ro the results effectivelly
+  
 
 }
 
-//with that done we are going to create  a function to create a user in firebasea auth
-// do to a small recap we are creating a user with email and password
+
 void  CreateUser(String email,password)async{
-  //now we have a helper function for creating a user iin firebase auth
-  //but wait we have to take account of the all possibilities
-  //what are the posibilities: success or failer
-  // to take this in to concideration we create a try catch
+
   try {
     await auth.createUserWithEmailAndPassword(email: email, password:password);
-    //so we are trying to authenticate and if it fails we catch an error ang send a message
+  
   } catch (e) {
-    // we will display the message uing the getx snack bar
+  // we will display the message uing the getx snack bar
     print(e.toString());
     Get.snackbar("user info", "user message",
     backgroundColor: Colors.red,
@@ -65,15 +59,12 @@ void  CreateUser(String email,password)async{
 }
 
 void  LogInUser(String email,password) async{
-  //now we have a helper function for creating a user iin firebase auth
-  //but wait we have to take account of the all possibilities
-  //what are the posibilities: success or failer
-  // to take this in to concideration we create a try catch
+ 
   try {
    await  auth.signInWithEmailAndPassword(email: email, password:password);
-    //so we are trying to authenticate and if it fails we catch an error ang send a message
+
   } catch (e) {
-    // we will display the message uing the getx snack bar
+  // we will display the message uing the getx snack bar
     print(e.toString());
     Get.snackbar("user info", "user message",
     backgroundColor: Colors.red,
