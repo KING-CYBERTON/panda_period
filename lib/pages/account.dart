@@ -1,8 +1,15 @@
+//import 'dart:html';
+
+// ignore_for_file: prefer_const_constructors
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:panda_period/contollers/GetAuth.dart';
+import 'package:panda_period/contollers/UserFech.dart';
+import 'package:panda_period/contraints/accContainers.dart';
 
 class AccontProfile extends StatefulWidget {
+  
   const AccontProfile({super.key});
 
   @override
@@ -17,58 +24,77 @@ class _AccontProfileState extends State<AccontProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
-        title: const Text('Panda Period'),
+        title: const Text('Panda Account'),
         
       ),
-      body: Center(
-        child: Container(
-          width:350,
-        height: 400,
+      body:SingleChildScrollView(
+      child: Stack(
+        children: [
+          SafeArea(
+            child: Container(
+              margin: EdgeInsets.zero,
+              decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: const [
 
-         decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: const [
-
-            BoxShadow(
-              blurRadius: 10,
-              offset: Offset(1, 1),
-              color: Color.fromARGB(255, 145, 56, 115),
-            )
-          ],
-          border: Border.all(
-            color: Color.fromARGB(255, 139, 51, 103),
-            width: 2,
-          ),
-          borderRadius: BorderRadius.circular(11),
+          BoxShadow(
+            blurRadius: 10,
+            offset: Offset(1, 1),
+            color: Colors.grey,
+          )
+        ],
+        border: Border.all(
+          color: Color.fromARGB(255, 11, 12, 10),
+          width: 2,
         ),
-          child: Center(
-            child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.person),
-               Container(
-                child:const  Text('Esther Wacera'),
-               // child:Text(FirebaseAuth.instance.currentUser!.displayName!)
-              ),
-              
-              
-             // EditableText(controller: plController, focusNode: focusNode, style: styleeditabledr , cursorColor: cursorColor, backgroundCursorColor: backgroundCursorColor)
-              Container(
-               // child: const Text('esther email'),
-                child: Text(FirebaseAuth.instance.currentUser!.email!)
-              ),
-               Container(
-                child: const Text('cycle length'),
-              ),
-               Container(
-                child: const Text('period length'),
-                
-              ),
-              SizedBox(
-                height: 20,
-              ),
-               ElevatedButton(onPressed: (){
+        borderRadius: BorderRadius.circular(11),
+      ),
+              alignment: Alignment.center,
+              child: Column(
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  SizedBox(height: 90,),
+                  CircleAvatar(
+                    radius: 100,
+                    backgroundImage: AssetImage('panda.png'),
+
+                  ),
+                  SizedBox(height: 30,),
+                  
+                  // ignore: prefer_const_constructors
+                  customContainer(
+                    label: 'Name:',
+                    txt: 'data',
+                    txtColor: Colors.black87,
+                    weight: FontWeight.w500,
+                    size: 30,
+                    style: FontStyle.italic),
+                    const SizedBox(height: 30,),
+                    customContainer(
+                    label: 'email:',
+                    txt: 'data',
+                    txtColor: Colors.black87,
+                    weight: FontWeight.w500,
+                    size: 30,
+                    style: FontStyle.italic),
+                    const SizedBox(height: 30,),
+                    customContainer(
+                    label: 'cycle length:',
+                    txt: 'data',
+                    txtColor: Colors.black87,
+                    weight: FontWeight.w500,
+                    size: 30,
+                    style: FontStyle.italic),
+                    const SizedBox(height: 30,),
+                    customContainer(
+                    label: 'period length:',
+                    txt: 'data',
+                    txtColor: Colors.black87,
+                    weight: FontWeight.w500,
+                    size: 30,
+                    style: FontStyle.italic),
+                     const SizedBox(height: 200,),
+                ElevatedButton(onPressed: (){
                   GetAuth.instance.LogOut();
                 },
             style: ElevatedButton.styleFrom(
@@ -76,17 +102,19 @@ class _AccontProfileState extends State<AccontProfile> {
               shadowColor: Color.fromARGB(26, 81, 160, 180),
             ),
              child: Text(
-                'LogOut',
+                'Log out',
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.lightGreen[800],
                 ),
               ),),
-            ],
-        ),
-          )
-        ),
-      ),
+              const SizedBox(height: 60,),
+                ],
+              ),
+              ))
+              ]
+              )
+              )
     );
   }
 }

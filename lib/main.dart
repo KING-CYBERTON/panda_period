@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:panda_period/contollers/GetAuth.dart';
 import 'package:panda_period/pages/Login.dart';
 import 'package:panda_period/pages/account.dart';
+import 'package:panda_period/pages/event.dart';
 import 'package:panda_period/pages/signIn.dart';
 import 'package:get/get.dart';
 
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       GetPage(name: '/login', page: () => const LoginInPage() ),
       GetPage(name: '/signup', page: ()=> const SignUpPage() ),
       GetPage(name: '/Profile', page: () => const AccontProfile() ),
+      GetPage(name: '/calender', page: () => const eve() ),
       ],
       home:const LoginInPage(),
     );

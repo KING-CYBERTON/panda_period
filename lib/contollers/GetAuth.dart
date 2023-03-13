@@ -1,42 +1,47 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:panda_period/contollers/UserFech.dart';
 
 class GetAuth extends GetxController {
 
 
   static GetAuth instance =Get.find();
 
-  late Rx<User?> _user;
-
-
+  //late Rx<User?> _user;
+    Rxn<User> fbUser = Rxn<User>();
+  final googleSignIn = GoogleSignIn();
+  
   FirebaseAuth auth =FirebaseAuth.instance;
+  GoogleSignInAccount? _googleAcc;
+  UserModel? _newUser;
 
   
 @override
 void onReady(){
   super.onReady();
   
-  _user= Rx<User?>(auth.currentUser);
+  fbUser= Rxn<User>(auth.currentUser);
  
-  _user.bindStream(auth.userChanges());
+  fbUser.bindStream(auth.userChanges());
  
-  ever(_user, _initialScreen);
+  ever(fbUser, _initialScreen);
 
 }
 
 
 _initialScreen(User? user){
   if(user==null){
-    print('login in');
+    print('loged in');
     Get.offAllNamed('/login');
   }
   else{
-Get.offAllNamed('/Profile');
+Get.offAllNamed('/calender');
   }
   
-
+        
 }
 
 
@@ -80,17 +85,34 @@ void LogOut(){
 
 }
   Google_auth () async{
-  final GoogleSignInAccount? googleUser =await GoogleSignIn(
-    scopes: <String>['email']).signIn();
+  final GoogleSignInAccount? googleUser =await GoogleSignIn().signIn();
+  if (googleUser == null) return;
 
-    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+
+    _googleAcc = googleUser;
+    final googleAuth = await googleUser.authentication;
 
     final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth.accessToken,
+    accessToken: googleAuth.accessToken, 
     idToken: googleAuth.idToken,);
 
-    return await auth.signInWithCredential(credential);
+    try {
+      await auth.signInWithCredential(credential).then((res) async {
+        print('Signed in successfully as ' + res.user!.displayName.toString());
+        print('email: ' + res.user!.email.toString());}
+        );
+      
+    } catch (e) {
+      print(e.toString());
+      Get.snackbar("Sign In Failed", "Try again");
+      
+    } 
 }
+
+
+
+
+
 
 
 
