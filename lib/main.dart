@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:panda_period/contollers/GetAuth.dart';
+import 'package:panda_period/pages/Events.dart';
 import 'package:panda_period/pages/Login.dart';
 import 'package:panda_period/pages/account.dart';
 import 'package:panda_period/pages/event.dart';
@@ -11,7 +12,8 @@ import 'package:get/get.dart';
 void main()  async{
    WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp().then((value) => Get.put(GetAuth()));
-  runApp(const MyApp());
+  runApp
+  (const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)   {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -30,11 +32,18 @@ class MyApp extends StatelessWidget {
       GetPage(name: '/signup', page: ()=> const SignUpPage() ),
       GetPage(name: '/Profile', page: () => const AccontProfile() ),
       GetPage(name: '/calender', page: () => const eve() ),
+      GetPage(name: '/PeriodEdit', page: () => const periodEditing()  ),
+      GetPage(name: '/calender2', page: () =>  MyCalendar()  ),
+      
+      GetPage(name: '/first', page: () => const calenderwidget()  ),
+      
       ],
       home:const LoginInPage(),
     );
   }
 }
+
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});

@@ -4,11 +4,14 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:panda_period/contollers/UserFech.dart';
+import 'package:panda_period/pages/event.dart';
 
 class GetAuth extends GetxController {
+  
 
 
   static GetAuth instance =Get.find();
+  
 
   //late Rx<User?> _user;
     Rxn<User> fbUser = Rxn<User>();
@@ -117,5 +120,37 @@ void LogOut(){
 
 
 
+
+}
+
+class PeriodList extends GetxController {
+
+  static PeriodList instance =Get.find();
+RxList<Period> periods=(List<Period>.of([])).obs; 
+  var count =0.obs;
+
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    super.onReady();
+
+
+  }
+
+  loadData(String title, DateTime to,DateTime from, bool isAllday,Color background){
+
+    late Period PeriodModel=Period(title: title, from: from, to: to, background: background, isAllDay: true);
+    periods.value.add(PeriodModel);
+    count.value=periods.value.length;
+
+  }
+
+}
+
+//list of events in getx
+
+class  PeriodsList{
+RxList<Period> period=(List<Period>.of([])).obs; 
+  var count =0.obs;
 
 }
