@@ -41,7 +41,7 @@ _initialScreen(User? user){
     Get.offAllNamed('/login');
   }
   else{
-Get.offAllNamed('/calender');
+Get.offAllNamed('/first');
   }
   
         
@@ -110,6 +110,8 @@ void LogOut(){
       Get.snackbar("Sign In Failed", "Try again");
       
     } 
+
+
 }
 
 
@@ -121,7 +123,8 @@ void LogOut(){
 
 
 
-// }
+
+}
 
 // class PeriodList extends GetxController {
 
@@ -153,4 +156,4 @@ void LogOut(){
 // RxList<Period> period=(List<Period>.of([])).obs; 
 //   var count =0.obs;
 
-// }
+ //}

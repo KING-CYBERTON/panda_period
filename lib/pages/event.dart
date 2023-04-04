@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:panda_period/contollers/GetAuth.dart';
 import 'package:panda_period/contollers/utils.dart';
 import 'package:panda_period/contraints/custom.dart';
+import 'package:panda_period/pages/Events.dart';
 import 'package:panda_period/pages/event.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:get/get.dart';
@@ -14,10 +15,21 @@ import 'event.dart';
 
 class calenderwidget extends StatelessWidget {
   const calenderwidget({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+            leading: IconButton(
+          icon: const Icon(
+            Icons.person,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Get.toNamed('/Profile');
+          },
+        )),
       body: eve(),
       floatingActionButton: FloatingActionButton(
           child: Icon(
@@ -39,27 +51,22 @@ class eve extends StatefulWidget {
 }
 
 class _eveState extends State<eve> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            leading: IconButton(
-          icon: const Icon(
-            Icons.person,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Get.toNamed('/Profile');
-          },
-        )),
+        
         body: SfCalendar(
           view: CalendarView.month,
-          //dataSource: MeetingDataSource(_getDataSource()),
-         //dataSource: PeriodDataSource(),
-          monthViewSettings: MonthViewSettings(
-              appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
+         // dataSource: MeetingDataSource(_getDataSource()),
+        // dataSource: PeriodDataSource(periodsEvents),
+        // monthViewSettings: MonthViewSettings(appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
+           monthViewSettings: MonthViewSettings(showAgenda: true),
+
         ));
   }
+
+  
 
   List<Meeting> _getDataSource() {
     final List<Meeting> meetings = <Meeting>[];
@@ -67,6 +74,8 @@ class _eveState extends State<eve> {
     final DateTime startTime =
         DateTime(today.year, today.month, today.day, 9, 0, 0); 
     final DateTime endTime = startTime.add(const Duration(hours: 48));
+    
+   // final DateTime endTime = to;
 
     meetings.add(Meeting(
       'period',
@@ -74,6 +83,7 @@ class _eveState extends State<eve> {
       endTime,
       Color.fromARGB(255, 236, 8, 8),
       true,
+      
     ));
     return meetings;
   }
@@ -118,6 +128,7 @@ class Meeting {
   DateTime to;
   Color background;
   bool isAllDay;
+
 }
 
 // editting th epeiod and creating the event
@@ -132,16 +143,16 @@ class periodEditing extends StatefulWidget {
 
 class _periodEditingState extends State<periodEditing> {
   final _formKey = GlobalKey<FormState>();
-  late DateTime from;
-  late DateTime to;
+  late DateTime fromDate;
+  late DateTime toDate;
 
   @override
   void initState() {
     // TODO: implement initState
 
     if (widget.period == null) {
-      from = DateTime.now();
-      to = DateTime.now().add(Duration(hours: 2));
+      fromDate = DateTime.now();
+      toDate = DateTime.now().add(Duration(hours: 2));
     }
   }
 
@@ -152,33 +163,33 @@ class _periodEditingState extends State<periodEditing> {
   //from date time picker  selects the date and time and  creates  the period
 
   Future pickFromDateTime({required bool pickDate}) async {
-    final date = await pickDateTime(from, pickDate: pickDate);
+    final date = await pickDateTime(fromDate, pickDate: pickDate);
     if (date==null) {
      return date;
       
     }
-    if (date.isAfter(to)) {
-      to= DateTime(date.year,date.month,date.day);
+    if (date.isAfter(toDate)) {
+      toDate= DateTime(date.year,date.month,date.day);
       
     }
     setState(() {
-      from=date;
+      fromDate=date;
     });
   }
 
   // to date time picker simmilar to the from date time picker
   Future pickToDateTime({required bool pickDate}) async {
-    final date = await pickDateTime(to, pickDate: pickDate,firstDate: pickDate? from : null);
+    final date = await pickDateTime(toDate, pickDate: pickDate,firstDate: pickDate? fromDate : null);
     if (date==null) {
       return;
       
     }
-    if (date.isAfter(from)) {
-      to= DateTime(date.year,date.month,date.day);
+    if (date.isAfter(fromDate)) {
+      toDate= DateTime(date.year,date.month,date.day);
       
     }
     setState(() {
-      to=date;
+      toDate=date;
     });
   }
 
@@ -219,10 +230,11 @@ class _periodEditingState extends State<periodEditing> {
   }
 
   Future SavePeriod() async{
-    final isValid = _formKey.currentState!.validate();
-
-    final period = Period(title: 'period range',from: from, to: to, background: Colors.purpleAccent , isAllDay: true);
+    final period = Period(from: fromDate, to: toDate, background: Colors.purpleAccent , isAllDay: true);
+    
+    
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -234,8 +246,9 @@ class _periodEditingState extends State<periodEditing> {
               icon: const Icon(Icons.done),
               tooltip: 'save',
               onPressed: () {
+                SavePeriod();
                 Get.back();
-                PeriodList.instance.loadData('period', to, from, true, Colors.purpleAccent);
+               // PeriodList.instance.loadData('period', to, from, true, Colors.purpleAccent);
               },
             ),
           ],
@@ -269,7 +282,7 @@ class _periodEditingState extends State<periodEditing> {
                 GestureDetector(
                   child: dateContainer(
                       datelabel: 'FROM',
-                      datetxt: utils.toDate(from),
+                      datetxt: utils.toDate(fromDate),
                       txtColor: Colors.black87,
                       weight: FontWeight.w500,
                       size: 30,
@@ -286,7 +299,7 @@ class _periodEditingState extends State<periodEditing> {
                 GestureDetector(
                   child: dateContainer(
                       datelabel: 'TO',
-                      datetxt: utils.toDate(to),
+                      datetxt: utils.toDate(toDate),
                       txtColor: Colors.black87,
                       weight: FontWeight.w500,
                       size: 30,
@@ -305,11 +318,15 @@ class _periodEditingState extends State<periodEditing> {
         ])));
   }
 }
+
+
+
 class PeriodDataSource extends CalendarDataSource {
-  PeriodDataSource(List<Period> appointments) {
-   this.appointments = appointments;
+  PeriodDataSource(List<Period> periodsEvents) {
+   appointments = periodsEvents ;
   }
-   Period getEvent (int index)=> appointments![index] as Period;
+
+  Period getPeriod(int index) => appointments![index] as Period;  
 
   @override
   DateTime getStartTime(int index) {
@@ -340,7 +357,7 @@ class PeriodDataSource extends CalendarDataSource {
 
 // data model for the period event
 class Period {
-  final String title;
+  final String title ='period';
   final DateTime from;
   final DateTime to;
   final Color background;
@@ -348,7 +365,7 @@ class Period {
 
   Period(
       {
-        required this.title,
+        
       required this.from,
       required this.to,
       required this.background,

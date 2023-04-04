@@ -31,11 +31,11 @@ class MyApp extends StatelessWidget {
       GetPage(name: '/login', page: () => const LoginInPage() ),
       GetPage(name: '/signup', page: ()=> const SignUpPage() ),
       GetPage(name: '/Profile', page: () => const AccontProfile() ),
-      GetPage(name: '/calender', page: () => const eve() ),
+     GetPage(name: '/calender', page: () => const eve() ),
       GetPage(name: '/PeriodEdit', page: () => const periodEditing()  ),
-      GetPage(name: '/calender2', page: () =>  MyCalendar()  ),
+      GetPage(name: '/calender2', page: () =>  SfCalendarWidget()  ),
       
-      GetPage(name: '/first', page: () => const calenderwidget()  ),
+     GetPage(name: '/first', page: () => calenderwidget()  ),
       
       ],
       home:const LoginInPage(),
