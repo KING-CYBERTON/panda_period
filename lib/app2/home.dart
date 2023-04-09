@@ -52,6 +52,14 @@ class _HomePageState extends State<HomePage> {
                 MaterialPageRoute(builder: (context) =>const HistoryTab()),
               );
             },
+          ),IconButton(
+            icon:const Icon(Icons.timelapse),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>const DrinkingWaterReminder()),
+              );
+            },
           ),
         ],
       ),
