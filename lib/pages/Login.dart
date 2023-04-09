@@ -128,7 +128,7 @@ class _LoginInPageState extends State<LoginInPage> {
             )),],),
           GestureDetector(
           onTap: () {
-            GetAuth.instance.Google_auth();
+             
           },
           child: const CircleAvatar(
           radius: 30,

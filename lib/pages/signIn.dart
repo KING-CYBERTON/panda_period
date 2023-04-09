@@ -122,7 +122,7 @@ class _SignUpPageState extends State<SignUpPage> {
           )),
          GestureDetector(
           onTap: () {
-            GetAuth.instance.Google_auth();
+           
           },
           child: const CircleAvatar(
           radius: 30,

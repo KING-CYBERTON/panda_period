@@ -20,6 +20,7 @@ class GetAuth extends GetxController {
   FirebaseAuth auth =FirebaseAuth.instance;
   GoogleSignInAccount? _googleAcc;
   UserModel? _newUser;
+ 
 
   
 @override
@@ -41,7 +42,8 @@ _initialScreen(User? user){
     Get.offAllNamed('/login');
   }
   else{
-Get.offAllNamed('/first');
+    print(user.uid);
+Get.offAllNamed('/Homescreen');
   }
   
         
@@ -87,38 +89,7 @@ void LogOut(){
   auth.signOut();
 
 }
-  Google_auth () async{
-  final GoogleSignInAccount? googleUser =await GoogleSignIn().signIn();
-  if (googleUser == null) return;
-
-
-    _googleAcc = googleUser;
-    final googleAuth = await googleUser.authentication;
-
-    final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth.accessToken, 
-    idToken: googleAuth.idToken,);
-
-    try {
-      await auth.signInWithCredential(credential).then((res) async {
-        print('Signed in successfully as ' + res.user!.displayName.toString());
-        print('email: ' + res.user!.email.toString());}
-        );
-      
-    } catch (e) {
-      print(e.toString());
-      Get.snackbar("Sign In Failed", "Try again");
-      
-    } 
-
-
-}
-
-
-
-
-
-
+ 
 
 
 
@@ -126,34 +97,3 @@ void LogOut(){
 
 }
 
-// class PeriodList extends GetxController {
-
-//   static PeriodList instance =Get.find();
-// RxList<Period> periods=(List<Period>.of([])).obs; 
-//   var count =0.obs;
-
-//   @override
-//   void onReady() {
-//     // TODO: implement onReady
-//     super.onReady();
-
-
-//   }
-
-//   loadData(String title, DateTime to,DateTime from, bool isAllday,Color background){
-
-//     late Period PeriodModel=Period(title: title, from: from, to: to, background: background, isAllDay: true);
-//     periods.value.add(PeriodModel);
-//     count.value=periods.value.length;
-
-//   }
-
-// }
-
-// //list of events in getx
-
-// class  PeriodsList{
-// RxList<Period> period=(List<Period>.of([])).obs; 
-//   var count =0.obs;
-
- //}

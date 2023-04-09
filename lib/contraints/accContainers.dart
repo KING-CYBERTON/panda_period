@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 
 class customContainer extends StatelessWidget {
+  dynamic valueKey;
+
   final String txt;
   final String label;
   final Color txtColor;
@@ -11,7 +13,8 @@ class customContainer extends StatelessWidget {
   final FontStyle style;
   
   
-  const customContainer(
+   customContainer(
+
       {super.key,
       required this.label,
       required this.txt,
@@ -46,6 +49,7 @@ class customContainer extends StatelessWidget {
         child: Row(
           children: 
       [ Text(
+        key: Key(this.valueKey),
         label,
         style: const TextStyle(
           color: Colors.pinkAccent ,
