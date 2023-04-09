@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:panda_period/chatgtp/account.dart';
-import 'package:panda_period/chatgtp/profile2.dart';
-import 'package:panda_period/chatgtp/water.dart';
+import 'package:panda_period/app2/account.dart';
+import 'package:panda_period/app2/profile2.dart';
+import 'package:panda_period/app2/water.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'HistoyTab.dart';

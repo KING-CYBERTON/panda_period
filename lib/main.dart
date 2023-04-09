@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:panda_period/chatgtp/home.dart';
-import 'package:panda_period/chatgtp/profile.dart';
-import 'package:panda_period/chatgtp/profile2.dart';
+import 'package:panda_period/app2/home.dart';
+import 'package:panda_period/app2/profile.dart';
+import 'package:panda_period/app2/profile2.dart';
 import 'package:panda_period/contollers/GetAuth.dart';
 import 'package:panda_period/pages/Events.dart';
 import 'package:panda_period/pages/Login.dart';
-import 'package:panda_period/chatgtp/account.dart';
+import 'package:panda_period/app2/account.dart';
 import 'package:panda_period/pages/event.dart';
 import 'package:panda_period/pages/signIn.dart';
 import 'package:get/get.dart';

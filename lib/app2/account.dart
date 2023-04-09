@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:panda_period/chatgtp/usermodel.dart';
+import 'package:panda_period/app2/usermodel.dart';
 import 'package:panda_period/contollers/GetAuth.dart';
 import 'package:panda_period/contollers/profileco.dart';
 import 'package:panda_period/contraints/accContainers.dart';

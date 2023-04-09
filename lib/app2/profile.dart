@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:panda_period/chatgtp/profile2.dart';
-import 'package:panda_period/chatgtp/usermodel.dart';
+import 'package:panda_period/app2/profile2.dart';
+import 'package:panda_period/app2/usermodel.dart';
 import 'package:panda_period/contollers/fireget.dart';
 import 'package:panda_period/contollers/profileco.dart';
 class ProfileTabdisplay extends StatefulWidget {
