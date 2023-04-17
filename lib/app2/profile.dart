@@ -42,6 +42,13 @@ class _ProfileTabdisplayState extends State<ProfileTabdisplay> {
   @override
   Widget build(BuildContext context) {
     final userdata = Get.put(userprofile());
+    
+
+
+
+Timestamp now = Timestamp.now();
+DateTime dateNow = now.toDate();
+
 
     String? emailValidator(String? value) {
   if (value == null || value.isEmpty) {
@@ -181,7 +188,7 @@ class _ProfileTabdisplayState extends State<ProfileTabdisplay> {
                                           ),
                                           const SizedBox(height: 10.0),
                                           DatePickerWidget(
-                          initialDate: userData.startDate,
+                          initialDate: dateNow,
                           onDateSelected: (date) {
                             setState(() {
                               _selectedDate = date;

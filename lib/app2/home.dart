@@ -1,9 +1,15 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:panda_period/app2/accProfile.dart';
 import 'package:panda_period/app2/account.dart';
 import 'package:panda_period/app2/profile2.dart';
+import 'package:panda_period/app2/singleacc.dart';
+import 'package:panda_period/app2/usermodel.dart';
 import 'package:panda_period/app2/water.dart';
+import 'package:panda_period/contollers/fireget.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'HistoyTab.dart';
@@ -15,31 +21,50 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
-
 class _HomePageState extends State<HomePage> {
   
-  late DateTime _startDate;
-  late int _periodLength;
+   late DateTime _startDate = DateTime.now();
+  late int _periodLength = 5;
+  late int _cycleLength =30;
+
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
     // load start date and period length from firebase
-    _startDate = DateTime.now() ; // replace with value from firebase
-    _periodLength = 5; // replace with value from firebase
+    _loadDataFromFirebase(); 
+
   }
+
+  void _loadDataFromFirebase() async {
+  final FireRepo fireRepo = FireRepo.instance;
+  final UserData user = await fireRepo.getUserData(_auth.currentUser!.email!);
+
+  setState(() {
+    _startDate = user.startDate;
+    _periodLength = user.periodLength;
+    _cycleLength = user.periodCycle;
+
+    print(_cycleLength);
+
+    
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calendar'),
+        title: Text('Calendar'), 
         leading:IconButton(
             icon: Icon(Icons.person),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>const AccontProfile()),
+                MaterialPageRoute(builder: (context) => UserProfileScreen()),
               );
             },
           ), 
@@ -86,7 +111,7 @@ class _HomePageState extends State<HomePage> {
     final rand = Random();
      
    
-  final cycleLength = 30;
+  final cycleLength = _cycleLength;
   final ovulationDay = _startDate.add(Duration(days: (cycleLength - 14)));
   final unsafeStartDay = _startDate.add(Duration(days: (cycleLength - 20)));
   final unsafeEndDay = _startDate.add(Duration(days: cycleLength));

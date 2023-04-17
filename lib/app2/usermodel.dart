@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class UserData {
 
@@ -46,7 +47,7 @@ class UserData {
       email: json['email'],
       periodLength: json['period_length'],
       periodCycle: json['period_cycle'],
-      startDate: json['start_date'],
+      startDate: json['start_date'].toDate(),
       reminder: json['reminder'],
     );
   }
