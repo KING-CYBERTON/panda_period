@@ -10,6 +10,7 @@ import 'package:panda_period/contollers/GetAuth.dart';
 class FireRepo extends GetxController {
 
   static FireRepo instance = Get.find();
+ 
 
 
   
@@ -46,6 +47,7 @@ class FireRepo extends GetxController {
     return userdetails;
     
   }
+
 
 
 

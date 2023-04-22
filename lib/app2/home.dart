@@ -2,11 +2,13 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:panda_period/app2/accProfile.dart';
 import 'package:panda_period/app2/account.dart';
 import 'package:panda_period/app2/profile2.dart';
 import 'package:panda_period/app2/singleacc.dart';
+import 'package:panda_period/app2/splah.dart';
 import 'package:panda_period/app2/usermodel.dart';
 import 'package:panda_period/app2/water.dart';
 import 'package:panda_period/contollers/fireget.dart';
@@ -24,34 +26,21 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   
    late DateTime _startDate = DateTime.now();
-  late int _periodLength = 5;
+  late int _periodLength = 5 ;
   late int _cycleLength =30;
 
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  
 
   @override
   void initState() {
     super.initState();
     // load start date and period length from firebase
-    _loadDataFromFirebase(); 
+   
 
   }
 
-  void _loadDataFromFirebase() async {
-  final FireRepo fireRepo = FireRepo.instance;
-  final UserData user = await fireRepo.getUserData(_auth.currentUser!.email!);
-
-  setState(() {
-    _startDate = user.startDate;
-    _periodLength = user.periodLength;
-    _cycleLength = user.periodCycle;
-
-    print(_cycleLength);
-
-    
-  });
-}
 
 
   @override
@@ -82,7 +71,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>const DrinkingWaterReminder()),
+                MaterialPageRoute(builder: (context) =>  const DrinkingWaterReminder()),
               );
             },
           ),

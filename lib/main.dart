@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:panda_period/app2/home.dart';
 import 'package:panda_period/app2/profile.dart';
 import 'package:panda_period/app2/profile2.dart';
+import 'package:panda_period/app2/splah.dart';
 import 'package:panda_period/contollers/GetAuth.dart';
 import 'package:panda_period/pages/Events.dart';
 import 'package:panda_period/pages/Login.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
       ),
       getPages: [
+        GetPage(name: '/', page: () => SplashScreen() ),
       GetPage(name: '/login', page: () => const LoginInPage() ),
       GetPage(name: '/signup', page: ()=> const SignUpPage() ),
       GetPage(name: '/Profile', page: () => const ProfileTab() ),
@@ -45,7 +47,7 @@ class MyApp extends StatelessWidget {
      GetPage(name: '/first', page: () => calenderwidget()  ),
       
       ],
-      home:const LoginInPage(),
+      initialRoute: '/',
     );
   }
 }

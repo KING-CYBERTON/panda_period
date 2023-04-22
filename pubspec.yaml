@@ -46,6 +46,7 @@ dependencies:
   provider: ^6.0.5
   table_calendar: ^3.0.1
   awesome_notifications: ^0.7.4+1
+  flare_flutter: ^3.0.0
   
 
 dev_dependencies:
@@ -80,6 +81,9 @@ flutter:
    - google.png
   # - images/google.png
    - logo.jpg
+   - panda.png
+   - panda(1).jpg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
