@@ -12,7 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FlareActor(
-        'assets/animation.flr',
+        'assets/Teddy.flr',
         alignment: Alignment.center,
         fit: BoxFit.contain,
         animation: 'splash',
