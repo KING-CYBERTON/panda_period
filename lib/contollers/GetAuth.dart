@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:panda_period/contollers/UserFech.dart';
-import 'package:panda_period/pages/event.dart';
+
+
 
 class GetAuth extends GetxController {
   
@@ -19,7 +19,7 @@ class GetAuth extends GetxController {
   
   FirebaseAuth auth =FirebaseAuth.instance;
   GoogleSignInAccount? _googleAcc;
-  UserModel? _newUser;
+  
  
 
   

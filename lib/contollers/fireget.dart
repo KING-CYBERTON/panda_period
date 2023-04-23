@@ -17,6 +17,7 @@ class FireRepo extends GetxController {
 
   final _db = FirebaseFirestore.instance;
   final uid = FirebaseAuth.instance.currentUser?.uid;
+
   
 
   createUser(UserData user) async{
@@ -37,6 +38,7 @@ class FireRepo extends GetxController {
   Future<UserData> getUserData(String email) async{
     final snapshot =await _db.collection('Users').where('email', isEqualTo: email).get();
     final userdetails = snapshot.docs.map((e) => UserData.fromSnapshot(e)).single;
+    
     return userdetails;
     
   }
@@ -54,6 +56,7 @@ class FireRepo extends GetxController {
 
   
 
-    
+   
+
 
 }

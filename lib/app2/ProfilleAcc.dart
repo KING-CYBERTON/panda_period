@@ -27,9 +27,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
      
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("User Profile"),
-      ),
+      appBar:AppBar(
+        title: const Text('Panda Profile'),
+            actions: [
+              IconButton(
+                      icon: const Icon(
+              Icons.edit,
+              color: Colors.white,
+                      ),
+                      onPressed: () {
+              Get.toNamed('/Profile');
+                      },
+                    ),]
+            ),
       body: FutureBuilder<UserData>(
         future: _userDataFuture,
         builder: (context, snapshot) {
