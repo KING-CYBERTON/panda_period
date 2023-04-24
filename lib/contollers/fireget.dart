@@ -49,7 +49,15 @@ class FireRepo extends GetxController {
     return userdetails;
     
   }
-
+  Future<Map<String, dynamic>> getPeriodData(String email) async {
+  final userData = await FireRepo.instance.getUserData(email.toString());
+  final periodData = {
+    'startDate': userData.startDate,
+    'periodLength': userData.periodLength,
+    'periodCycle': userData.periodCycle,
+  };
+  return periodData;
+}
 
 
 

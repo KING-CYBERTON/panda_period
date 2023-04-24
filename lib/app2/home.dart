@@ -16,77 +16,93 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'HistoyTab.dart';
 
 class HomePage extends StatefulWidget {
-  
   const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
-class _HomePageState extends State<HomePage> {
-  
-   late DateTime _startDate = DateTime.now();
-  late int _periodLength = 5 ;
-  late int _cycleLength =30;
 
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class _HomePageState extends State<HomePage> {
+  late DateTime _startDate = DateTime.now();
+  late  int _periodLength = 5;
+  late int _cycleLength = 30;
+  final email = FirebaseAuth.instance.currentUser?.email;
+  final repo = Get.put(FireRepo());
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  
+
+  late Future<UserData> _userDataFuture;
 
   @override
   void initState() {
     super.initState();
     // load start date and period length from firebase
-   
-
+    _userDataFuture = FireRepo.instance.getUserData(email.toString());
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calendar'), 
-        leading:IconButton(
-            icon: Icon(Icons.person),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => UserProfileScreen()),
-              );
-            },
-          ), 
+        title: const Text('Calendar'),
+        leading: IconButton(
+          icon: const Icon(Icons.person),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => UserProfileScreen()),
+            );
+          },
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.history),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>const HistoryTab()),
+                MaterialPageRoute(builder: (context) => const HistoryTab()),
               );
             },
-          ),IconButton(
-            icon:const Icon(Icons.timelapse),
+          ),
+          IconButton(
+            icon: const Icon(Icons.timelapse),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>  const DrinkingWaterReminder()),
+                MaterialPageRoute(builder: (context) => const DrinkingWaterReminder()),
               );
             },
           ),
         ],
       ),
-      body: SfCalendar(
-        view: CalendarView.month,
-        dataSource: _getCalendarDataSource(),
-        monthViewSettings: MonthViewSettings(showAgenda: true),
-        onTap: (CalendarTapDetails details) {
-          if (details.targetElement == CalendarElement.calendarCell) {
-            final selectedDate = details.date!;
-            // navigate to add event screen with selectedDate
+      body: FutureBuilder<UserData>(
+        future: _userDataFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SplashScreen() ;
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            final userModel = snapshot.data!;
+            _startDate = userModel.startDate;
+            _periodLength = userModel.periodLength;
+            _cycleLength = userModel.periodCycle;
+
+            return SfCalendar(
+              view: CalendarView.month,
+              dataSource: _getCalendarDataSource(),
+              monthViewSettings: MonthViewSettings(showAgenda: true),
+              onTap: (CalendarTapDetails details) {
+                if (details.targetElement == CalendarElement.calendarCell) {
+                  final selectedDate = details.date!;
+                  // navigate to add event screen with selectedDate
+                }
+              },
+            );
           }
         },
-      ), 
+      ),
     );
   }
 
@@ -101,7 +117,7 @@ class _HomePageState extends State<HomePage> {
    
   final cycleLength = _cycleLength;
   final ovulationDay = _startDate.add(Duration(days: (cycleLength - 14)));
-  final unsafeStartDay = _startDate.add(Duration(days: (cycleLength - 20)));
+  final unsafeStartDay = _startDate.add(Duration(days: (cycleLength - 18)));
   final unsafeEndDay = _startDate.add(Duration(days: cycleLength));
   RecurrenceProperties recurrence =
       RecurrenceProperties(startDate: _startDate );
@@ -137,7 +153,7 @@ class _HomePageState extends State<HomePage> {
     for (var date = _startDate; date.isBefore(endDate); date = date.add(Duration(days: 1))) {
       events.add(Appointment(
         startTime: date,
-        endTime: endDate,
+        endTime: date,
         subject: 'Period Day',
         color: Colors.red,
         isAllDay: true,
@@ -148,7 +164,7 @@ class _HomePageState extends State<HomePage> {
       if (rand.nextDouble() < 0.8) {
         events.add(Appointment(
           startTime: date.add(const Duration(hours: 14)),
-          endTime: endDate,
+          endTime: date.add(const Duration(hours: 14)),
           subject: 'Mood Swing',
           color: Colors.green,
           isAllDay: false,
