@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../contollers/fireget.dart';
 
 class PeriodPage extends StatefulWidget {
   const PeriodPage({Key? key}) : super(key: key);
@@ -203,4 +207,211 @@ class PeriodList extends StatelessWidget {
 }
 
 }
+
+
+
+// class PeriodHistoryTab extends StatefulWidget {
+//   final String email;
+
+//   PeriodHistoryTab({required this.email});
+
+//   @override
+//   _PeriodHistoryTabState createState() => _PeriodHistoryTabState();
+// }
+
+// class _PeriodHistoryTabState extends State<PeriodHistoryTab> {
+//   late DateTime _startDate= DateTime.now();
+//   late int _periodLength =5;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _fetchPeriodData();
+//   }
+
+//   Future<void> _fetchPeriodData() async {
+//     final periodData = await FireRepo.instance.getPeriodData(widget.email);
+//     setState(() {
+//       _startDate = DateTime.parse(periodData['startDate']);
+//       _periodLength = periodData['periodLength'];
+//     });
+//   }
+
+// List<DateTime> _getPeriodDates(DateTime startDate, int periodLength) {
+//   var periodDates = <DateTime>[];
+//   final dateFormat = DateFormat('dd/MM/yyyy');
+
+//   // Calculate the start of the first period
+//   DateTime periodStart = startDate;
+//   while (periodStart.isAfter(DateTime.now().subtract(Duration(days: 180)))) {
+//     periodStart = periodStart.subtract(Duration(days: periodLength));
+//   }
+
+//   // Calculate the past period dates
+//   for (int i = 0; i < 6; i++) {
+//     final periodEnd = periodStart.add(Duration(days: periodLength - 1));
+//     if (periodEnd.isBefore(DateTime.now())) {
+//       periodDates.add(periodStart);
+//     } else {
+//       break;
+//     }
+//     periodStart = periodStart.subtract(Duration(days: 28));
+//   }
+//   periodDates.add(_startDate.subtract(Duration(days: 1))); // Add last period before start date
+
+//   // Reverse the list to display the dates in chronological order
+//   final periodDatesR = periodDates.reversed.toList();
+
+//   // Calculate the upcoming period dates
+//   periodStart = _startDate;
+//   while (periodStart.isBefore(DateTime.now().add(Duration(days: 180)))) {
+//     periodDates.add(periodStart);
+//     periodStart = periodStart.add(Duration(days: 28));
+//   }
+//   periodDates.removeWhere((date) => date.isBefore(DateTime.now())); // Remove past dates
+//   periodDates = periodDates.sublist(0, min(periodDates.length, 6)); // Limit to six months
+
+//   return periodDates;
+// }
+
+
+
+//   @override
+// Widget build(BuildContext context) {
+//   return FutureBuilder<Map<String, dynamic>>(
+//     future: FireRepo.instance.getPeriodData(widget.email),
+//     builder: (context, snapshot) {
+//       if (snapshot.connectionState == ConnectionState.waiting) {
+//         return CircularProgressIndicator();
+//       } else if (snapshot.hasError) {
+//         return Text('Error fetching period data');
+//       } else if (snapshot.hasData) {
+//         final periodDates = _getPeriodDates(_startDate, _periodLength);
+//         return ListView.builder(
+//           itemCount: periodDates.length,
+//           itemBuilder: (context, index) {
+//             final periodDate = periodDates[index];
+//             final formattedStartDate = DateFormat('dd/MM/yyyy').format(periodDate['start']);
+//             final formattedEndDate = DateFormat('dd/MM/yyyy').format(periodDate['end']);
+//             final isPastPeriod = periodDate['isPast'];
+//             return ListTile(
+//               title: Text('$formattedStartDate - $formattedEndDate'),
+//               trailing: isPastPeriod ? Icon(Icons.check, color: Colors.red) : null,
+//             );
+//           },
+//         );
+//       } else {
+//         return Text('No data found');
+//       }
+//     },
+//   );
+// }
+
+// }
+
+
+
+class MyHomePage extends StatelessWidget {
+  final String email;
+
+  const MyHomePage({Key? key, required this.email}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Period History'),
+      ),
+      body: PeriodHistoryTab(email: email),
+    );
+  }
+}
+
+class PeriodHistoryTab extends StatefulWidget {
+  final String email;
+
+  PeriodHistoryTab({required this.email});
+
+  @override
+  _PeriodHistoryTabState createState() => _PeriodHistoryTabState();
+}
+
+class _PeriodHistoryTabState extends State<PeriodHistoryTab> {
+  late DateTime _startDate =DateTime.now();
+  late int _periodLength=5;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPeriodData();
+  }
+
+  Future<void> _fetchPeriodData() async {
+    final periodData = await FireRepo.instance.getPeriodData(widget.email);
+    setState(() {
+      _startDate = DateTime.parse(periodData['startDate']);
+      _periodLength = periodData['periodLength'];
+    });
+  }
+
+  List<DateTime> _getPeriodDates(DateTime startDate, int periodLength) {
+    final periodDates = <DateTime>[];
+    final dateFormat = DateFormat('dd/MM/yyyy');
+
+    // Calculate the past period dates
+    final now = DateTime.now();
+    final sixMonthsAgo = now.subtract(Duration(days: 30 * 6));
+    DateTime periodStart = startDate;
+    while (periodStart.isAfter(sixMonthsAgo)) {
+      final periodEnd = periodStart.add(Duration(days: periodLength - 1));
+      periodDates.add(periodStart);
+      periodDates.add(periodEnd);
+      periodStart = periodStart.subtract(Duration(days: periodLength));
+    }
+
+    // Calculate the upcoming period dates
+    DateTime nextPeriodStart = startDate.add(Duration(days: periodLength));
+    while (nextPeriodStart.isBefore(now.add(Duration(days: 30 * 6)))) {
+      final periodEnd = nextPeriodStart.add(Duration(days: periodLength - 1));
+      periodDates.add(nextPeriodStart);
+      periodDates.add(periodEnd);
+      nextPeriodStart = nextPeriodStart.add(Duration(days: periodLength));
+    }
+
+    return periodDates;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Map<String, dynamic>>(
+      future: FireRepo.instance.getPeriodData(widget.email),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error fetching period data');
+        } else if (snapshot.hasData) {
+          final periodDates = _getPeriodDates(_startDate, _periodLength);
+          return ListView.builder(
+            itemCount: periodDates.length,
+            itemBuilder: (context, index) {
+              final periodDate = periodDates[index];
+              final formattedDate = DateFormat('dd/MM/yyyy').format(periodDate);
+              final isPastPeriod = periodDate.isBefore(DateTime.now());
+              final tickIcon = isPastPeriod ? Icon(Icons.check, color: Colors.red) : SizedBox.shrink();
+              return ListTile(
+                title: Text(formattedDate),
+                trailing: tickIcon,
+              );
+            },
+          );
+        } else {
+          return Text('No data found');
+        }
+      },
+    );
+  }
+}
+
+
 
