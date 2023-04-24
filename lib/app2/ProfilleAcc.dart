@@ -209,7 +209,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   const SizedBox(height: 90),
                   ElevatedButton(
                     onPressed: () {
-                      GetAuth.instance.LogOut();
+                      GetAuth.instance.logOut();
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.red,

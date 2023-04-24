@@ -93,7 +93,7 @@ class _LoginInPageState extends State<LoginInPage> {
             
                 const SizedBox(width: 90,),
                 ElevatedButton(onPressed: (){
-                  GetAuth.instance.LogInUser(emailController.text.trim(), passwordController.text.trim());
+                  GetAuth.instance.logInUser(emailController.text.trim(), passwordController.text.trim());
                 },
             style: ElevatedButton.styleFrom(
               primary: Colors.white10,

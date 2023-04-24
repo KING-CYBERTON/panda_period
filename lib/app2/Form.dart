@@ -167,6 +167,7 @@ class _ProfileTabState extends State<ProfileTab> {
       );
 
       FireRepo.instance.createUser(user);
+      Get.offAllNamed('/Homescreen');
       
             
               

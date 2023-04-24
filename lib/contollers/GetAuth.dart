@@ -52,7 +52,7 @@ Get.offAllNamed('/Homescreen');
 
 
 
-void  CreateUser(String email,password)async{
+void  createUser(String email,password)async{
 
   try {
     await auth.createUserWithEmailAndPassword(email: email, password:password);
@@ -70,7 +70,7 @@ void  CreateUser(String email,password)async{
  
 }
 
-void  LogInUser(String email,password) async{
+void  logInUser(String email,password) async{
  
   try {
    await  auth.signInWithEmailAndPassword(email: email, password:password);
@@ -87,7 +87,7 @@ void  LogInUser(String email,password) async{
   }
  
 }
-void LogOut(){
+void logOut(){
   auth.signOut();
 
 }

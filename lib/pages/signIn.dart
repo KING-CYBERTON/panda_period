@@ -89,7 +89,7 @@ class _SignUpPageState extends State<SignUpPage> {
           
           const SizedBox(width: 60),
           ElevatedButton(onPressed: (){
-          GetAuth.instance.CreateUser(emailController.text.trim(), passwordController.text.trim());
+          GetAuth.instance.createUser(emailController.text.trim(), passwordController.text.trim());
           
           },
           
